@@ -1,0 +1,39 @@
+ 
+{% extends "inventory/base.html" %}
+{% load static %}
+{% load 'home.py' %} 
+{% block head %} 
+<Link rel='stylesheet' href="{% static 'inventory/home.css' %}"/>
+{% endblock %} 
+{% block content %} 
+<h1 class='title'>MENU ITEMS</h1>
+<table>
+    <tr>
+        <th>Entree</th>
+        <th>Ingredient List</th>
+        <th>Seasonal</th>
+        <th>Availability</th>
+    </tr>
+    {% for entree in Menu %}
+    <tr>
+        <td>{{entree.title}}</td>
+        <td>{{Recipe|ing:entree}}</td>
+        {% if entree.is_seasonal == True %}
+        <td>Currently in Season</td>
+        {% else %}
+        <td>Currently Out of Season</td>
+        {% endif %}
+        {% if entree.availability == True %}
+        <td>In Stock</td>
+        <td>Make Purchase</td>
+        {% else %}
+        <td>Sold Out</td>
+        {% endif %}
+    
+    </tr>
+    {% endfor %}
+
+    
+
+</table>
+{% endblock %}
