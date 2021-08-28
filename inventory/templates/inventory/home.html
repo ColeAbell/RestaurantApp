@@ -1,7 +1,7 @@
  
 {% extends "inventory/base.html" %}
 {% load static %}
-{% load 'home.py' %} 
+ 
 {% block head %} 
 <Link rel='stylesheet' href="{% static 'inventory/home.css' %}"/>
 {% endblock %} 
@@ -10,30 +10,61 @@
 <table>
     <tr>
         <th>Entree</th>
-        <th>Ingredient List</th>
-        <th>Seasonal</th>
+        <th>Price</th>
+        <th>Recipe Ingredients</th>
         <th>Availability</th>
+        <th>Make Purchase</th>
+        <th>Total Sales</th>
+        <th>Delete Entree</th>
     </tr>
     {% for entree in Menu %}
     <tr>
-        <td>{{entree.title}}</td>
-        <td>{{Recipe|ing:entree}}</td>
-        {% if entree.is_seasonal == True %}
-        <td>Currently in Season</td>
-        {% else %}
-        <td>Currently Out of Season</td>
-        {% endif %}
-        {% if entree.availability == True %}
+        <td><a href="{% url 'updatemenu' entree.id %}"><button type='button'>{{entree.title}}</button></a></td>
+        <td>{{entree.price}}</td>
+        <td>
+        <ul>
+        {% for i in entree.ingreds %} 
+        <li><a href="{% url 'updaterecipe' i.id %}">{{i.ingredient.name}}</a></li><a href="{% url 'deleterecipe' i.id %}"><button type='button'>Remove From Recipe</button></a>
+        {% endfor %} 
+        </ul>
+        <a href="{% url 'createrecipe' %}"><button type="button">Add New Item To Recipe</button></a>
+        </td>
+        {% if entree.available %}
         <td>In Stock</td>
-        <td>Make Purchase</td>
+        <td><a href="{% url 'createpurchase' %}"><button type='button'>Make Purchase</button></a></td>
         {% else %}
+        <td> Out of Stock:
+            
+            
+            <table>
+                <tr>
+                    <td>Missing Ingredient</td>
+                    <td>Amount Needed</td>
+                </tr>
+                {% for i in entree.need %}
+                <tr>
+                    {% for value in i %}
+                    <td>{{value}}</td>
+                    {% endfor %} 
+                </tr>
+                {% endfor %} 
+            </table>
+        </td>
         <td>Sold Out</td>
         {% endif %}
-    
+        <td>
+            {{entree.sales}}
+        </td>
+        <td><a href="{% url 'deletemenu' entree.id %}"><button type='button'>Delete</button></a></td>
     </tr>
     {% endfor %}
 
     
 
 </table>
+<ul>
+<li><a href="{% url 'createmenu' %}"><button type='button'>Add Entree</button></a></li>
+<li><a href="{% url 'createingredient' %}"><button type='button'>Add To Inventory</button></a></li>
+<li><a href="{% url 'update_select_ingredient' %}"><button type='button'>Update Inventory</button></a></li>
+</ul>
 {% endblock %}

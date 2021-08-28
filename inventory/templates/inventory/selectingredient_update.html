@@ -1,0 +1,10 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+{% block content %} 
+<p>Select Ingredient to Update</p>
+<ul>
+    {% for i in ingredients %} 
+    <li><a href="{% url 'updateingredient' i.id %}">{{i.name}}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %} 

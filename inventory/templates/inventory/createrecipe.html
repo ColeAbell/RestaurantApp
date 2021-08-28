@@ -1,0 +1,11 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+{% block content %} 
+<p>Add recipe item below:</p>
+<form method='POST'>
+    {% csrf_token %} 
+    {{form.as_p}}
+    <input type='submit' value='Submit'/>
+</form>
+<p>If ingredient not listed, first <a href="{% url 'createingredient' %}">add ingredient</a></p>
+{% endblock %} 
