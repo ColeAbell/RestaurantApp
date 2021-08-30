@@ -1,17 +1,17 @@
 {% extends 'inventory/base.html' %}
 {% load static %}
 {% block content %} 
-<th>If any ingredient for new menu item not listed below, add ingredient information and click "Submit", else click "Move onto Recipe"</th>
+<h3>Add Missing Ingredients To Inventory</h3>
 <ul>
-    
+    <h4>If ingredient already listed below, skip this step</h4>
     {% for i in ingredients %} 
-    <li>{{i.name}}{{i.quantity}}</li>
+    <li>{{i.name}}</li>
     {% endfor %}
 </ul>
 <form method='POST'>
     {% csrf_token %} 
     {{form.as_p}}
-    <input type='submit' value='Submit'/>
+    <input type='submit' value='Add Ingredient'/>
 </form>
-<a href="{% url 'createrecipe' %}"><button type='button'>Move on to recipe</button></a>
+<a href="{% url 'createrecipe' %}"><button type='button'>Move on to recipe creation</button></a>
 {% endblock %}

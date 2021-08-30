@@ -1,6 +1,20 @@
-table, th, td {
-    border: 1px solid black
+table, th, td, thead, tbody{
+    border: 1px solid blue;
+    font-weight: bold;
+    
 }
+table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+button {
+    font-weight: bold;
+}
+
 h1 {
     color: lime;
 }

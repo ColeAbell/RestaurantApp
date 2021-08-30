@@ -1,7 +1,7 @@
 {% extends 'inventory/base.html' %}
 {% load static %}
 {% block content %} 
-<p>Add recipe item below:</p>
+<h3>Add recipe item below:</h3>
 <form method='POST'>
     {% csrf_token %} 
     {{form.as_p}}

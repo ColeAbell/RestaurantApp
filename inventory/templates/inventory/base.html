@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<head>
 {% block head %}
 {% endblock %}
-</head>
 <body>
     <title>Winter Garden Django Pizza Company</title>
     <h1>Winter Garden Django Pizza Company</h1>
     <a href="{% url 'home' %}"><button type='button'>Home</button></a>
+    <a href="{% url 'logout' %}"><button type='button'>Log out</button></a>
     {% block content %}
     {% endblock %}
     

@@ -1,0 +1,10 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+{% block content %} 
+<h3>Please Confirm Removal Of Ingredient</h3>
+<form method='POST'>
+    {% csrf_token %} 
+    {{form.as_p}}
+    <input type='submit' value='Remove From Inventory'/>
+</form>
+{% endblock %} 

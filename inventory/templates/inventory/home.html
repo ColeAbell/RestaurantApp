@@ -1,13 +1,13 @@
  
 {% extends "inventory/base.html" %}
 {% load static %}
- 
 {% block head %} 
-<Link rel='stylesheet' href="{% static 'inventory/home.css' %}"/>
+<link rel='stylesheet' href="{% static 'inventory/home.css' %}"/>
 {% endblock %} 
 {% block content %} 
 <h1 class='title'>MENU ITEMS</h1>
 <table>
+    <thead>
     <tr>
         <th>Entree</th>
         <th>Price</th>
@@ -17,6 +17,8 @@
         <th>Total Sales</th>
         <th>Delete Entree</th>
     </tr>
+    </thead>
+    <tbody>
     {% for entree in Menu %}
     <tr>
         <td><a href="{% url 'updatemenu' entree.id %}"><button type='button'>{{entree.title}}</button></a></td>
@@ -30,16 +32,14 @@
         <a href="{% url 'createrecipe' %}"><button type="button">Add New Item To Recipe</button></a>
         </td>
         {% if entree.available %}
-        <td>In Stock</td>
+        <td style='font-weight: bold;'>In Stock</td>
         <td><a href="{% url 'createpurchase' %}"><button type='button'>Make Purchase</button></a></td>
         {% else %}
-        <td> Out of Stock:
-            
-            
+        <td style='font-weight: bold;'> Out of Stock:
             <table>
                 <tr>
-                    <td>Missing Ingredient</td>
-                    <td>Amount Needed</td>
+                    <td style='font-weight: bold;'>Missing Ingredients:</td>
+                    <td style='font-weight: bold;'>Amount Needed:</td>
                 </tr>
                 {% for i in entree.need %}
                 <tr>
@@ -48,9 +48,10 @@
                     {% endfor %} 
                 </tr>
                 {% endfor %} 
+            
             </table>
         </td>
-        <td>Sold Out</td>
+        <td style='font-weight: bold;'>Sold Out</td>
         {% endif %}
         <td>
             {{entree.sales}}
@@ -60,7 +61,7 @@
     {% endfor %}
 
     
-
+</tbody>
 </table>
 <ul>
 <li><a href="{% url 'createmenu' %}"><button type='button'>Add Entree</button></a></li>

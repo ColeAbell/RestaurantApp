@@ -1,10 +1,10 @@
 {% extends 'inventory/base.html' %}
 {% load static %}
 {% block content %}
-<h2>To Delete Item From Recipe Click "Submit"</h2>
+<h3>To Confirm, Click "Delete"</h3>
 <form method='POST'>
     {% csrf_token %} 
     {{form.as_p}}
-    <input type='submit' value='Submit'/>
+    <input type='submit' value='Delete'/>
 </form>
 {% endblock %} 
