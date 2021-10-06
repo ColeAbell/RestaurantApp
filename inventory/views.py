@@ -1,11 +1,14 @@
+from typing import ItemsView
 from django.shortcuts import render, redirect 
-from .models import Ingredient, RecipeRequirment, MenuItem, Purchase
+from .models import Ingredient, RecipeRequirment, MenuItem, Purchase, Register
 from django.views.generic import TemplateView, ListView, DeleteView, CreateView, UpdateView
 from .forms import MenuForm, IngredientForm, RecipeForm, PurchaseForm
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required 
 
 # Create your views here.
 class InventoryList(LoginRequiredMixin, TemplateView):
@@ -16,6 +19,7 @@ class InventoryList(LoginRequiredMixin, TemplateView):
         context['Menu'] = MenuItem.objects.all()
         context['ingredients'] = Ingredient.objects.all()
         context['Purchase'] = Purchase.objects.all()
+        context['register'] = Register.objects.all()
         return context
 class MenuCreate(LoginRequiredMixin, CreateView):
     model = MenuItem
@@ -53,11 +57,7 @@ class MenuUpdate(LoginRequiredMixin, UpdateView):
     template_name = "inventory/updatemenu.html"
     form_class = MenuForm
     success_url = reverse_lazy("home")
-class PurchaseCreate(LoginRequiredMixin, CreateView):
-    model = Purchase 
-    template_name = "inventory/createpurchase.html"
-    form_class = PurchaseForm
-    success_url = reverse_lazy("home")
+
 class IngredientUpdate(LoginRequiredMixin, UpdateView):
     model = Ingredient 
     template_name = "inventory/updateingredient.html"
@@ -73,9 +73,50 @@ class UserCreate(CreateView):
     template_name = "registration/signup.html"
     form_class = UserCreationForm
     success_url = reverse_lazy("login") 
+@login_required
 def logout_view(request):
     logout(request)
     return redirect("home")
+class IngredientDelete(LoginRequiredMixin, DeleteView):
+    model = Ingredient 
+    form_class = IngredientForm
+    template_name = "inventory/deleteingredient.html"
+    success_url = reverse_lazy("home")
+class SelectIngredientDelete(LoginRequiredMixin, TemplateView):
+    template_name = "inventory/selectingredient_delete.html"
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['ingredients'] = Ingredient.objects.all()
+        return context
+@login_required
+def newbank(request):
+    new = Register()
+    new.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+@login_required
+def restock(request, title, amount):
+    new = Ingredient.objects.get(name=title)
+    new.quantity += float(amount)
+    new.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+@login_required
+def createpurchase(request, item):
+    new = Purchase(menu_item=MenuItem.objects.get(id=item))
+    new.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+class RegisterView(LoginRequiredMixin, TemplateView):
+    template_name = "inventory/financial_records.html"
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['register'] = Register.objects.all()
+        return context 
+
+
+
+
+    
+
+
 
     
 

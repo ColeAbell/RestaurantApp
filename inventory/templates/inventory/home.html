@@ -1,12 +1,45 @@
  
-{% extends "inventory/base.html" %}
 {% load static %}
-{% block head %} 
+<head> 
 <link rel='stylesheet' href="{% static 'inventory/home.css' %}"/>
-{% endblock %} 
-{% block content %} 
-<h1 class='title'>MENU ITEMS</h1>
+</head> 
+<body class='home'>
+    <div>
+        <title>Winter Garden Django Pizza Company</title>
+        <h1><span>Winter Garden Django Pizza Company</span></h1>
+        <a href="{% url 'home' %}"><button type='button'>Home</button></a>
+        <a href="{% url 'logout' %}"><button type='button'>Log out</button></a>
+    </div>
 <table>
+    <caption><h3><span>Daily Bank</span></h3></caption>
+    <thead>
+    <tr>
+        <th>Current Register</th>
+        <th>Spending</th>
+        <th>Earnings</th>
+        <th>Profit</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    {% for i in register %} 
+    {% if i.last == True %} 
+    <tr>
+        <td>{{i.daily_bank|floatformat:2}}</td>
+        <td>{{i.amount_spent|floatformat:2}}</td>
+        <td>{{i.amount_made|floatformat:2}}</td>
+        <td>{{i.profit|floatformat:2}}</td>
+        <td>{{i.date}}</td>
+    
+    </tr>
+    {% endif %} 
+    {% endfor %} 
+    
+
+</table>
+<a href="{% url 'createregister' %}"><button type='button'>New Bank</button></a>
+<a href="{% url 'viewregister' %}"><button type='button'>Past Financial Records</button></a>
+<table>
+    <caption><h2><span>Inventory</span></h2></caption>
     <thead>
     <tr>
         <th>Entree</th>
@@ -14,7 +47,7 @@
         <th>Recipe Ingredients</th>
         <th>Availability</th>
         <th>Make Purchase</th>
-        <th>Total Sales</th>
+        <th>Total Daily Sales</th>
         <th>Delete Entree</th>
     </tr>
     </thead>
@@ -22,39 +55,42 @@
     {% for entree in Menu %}
     <tr>
         <td><a href="{% url 'updatemenu' entree.id %}"><button type='button'>{{entree.title}}</button></a></td>
-        <td>{{entree.price}}</td>
+        <td>{{entree.price|floatformat:2}}</td>
         <td>
         <ul>
         {% for i in entree.ingreds %} 
-        <li><a href="{% url 'updaterecipe' i.id %}">{{i.ingredient.name}}</a></li><a href="{% url 'deleterecipe' i.id %}"><button type='button'>Remove From Recipe</button></a>
+        <li><a href="{% url 'updaterecipe' i.id %}">{{i.ingredient.name}}</a></li><a href="{% url 'deleterecipe' i.id %}"><button type='button'>Remove</button></a>
         {% endfor %} 
         </ul>
-        <a href="{% url 'createrecipe' %}"><button type="button">Add New Item To Recipe</button></a>
+        <a href="{% url 'createrecipe' %}"><button type="button">Add Recipe Item</button></a>
         </td>
         {% if entree.available %}
         <td style='font-weight: bold;'>In Stock</td>
-        <td><a href="{% url 'createpurchase' %}"><button type='button'>Make Purchase</button></a></td>
+        <td><a href="{% url 'purchase' entree.id %}"><button type='button'>Make Purchase</button></a></td>
         {% else %}
         <td style='font-weight: bold;'> Out of Stock:
             <table>
                 <tr>
                     <td style='font-weight: bold;'>Missing Ingredients:</td>
                     <td style='font-weight: bold;'>Amount Needed:</td>
+                    <td style='font-weight: bold;'>Buy More</td>
                 </tr>
                 {% for i in entree.need %}
                 <tr>
-                    {% for value in i %}
-                    <td>{{value}}</td>
-                    {% endfor %} 
+                    <td>{{i.ingredient.name}}</td>  
+                    <td>{{i.short}}</td>
+                    <td><a href="{% url 'restock' i.ingredient.name i.short %}">Restock</a></td>
+                
+
                 </tr>
                 {% endfor %} 
             
             </table>
         </td>
         <td style='font-weight: bold;'>Sold Out</td>
-        {% endif %}
+        {% endif %}  
         <td>
-            {{entree.sales}}
+        {{entree.sales}}     
         </td>
         <td><a href="{% url 'deletemenu' entree.id %}"><button type='button'>Delete</button></a></td>
     </tr>
@@ -67,5 +103,6 @@
 <li><a href="{% url 'createmenu' %}"><button type='button'>Add Entree</button></a></li>
 <li><a href="{% url 'createingredient' %}"><button type='button'>Add To Inventory</button></a></li>
 <li><a href="{% url 'update_select_ingredient' %}"><button type='button'>Update Inventory</button></a></li>
+<li><a href="{% url 'delete_select_ingredient' %}"><button type='button'>Delete Inventory</button></a></li>
 </ul>
-{% endblock %}
+</body>

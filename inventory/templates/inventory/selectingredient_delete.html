@@ -1,0 +1,10 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+{% block content %} 
+<h1>Select Ingredient to Delete From Inventory</h1>
+<ul>
+    {% for i in ingredients %} 
+    <li><a href="{% url 'deleteingredient' i.id %}">{{i.name}}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %} 

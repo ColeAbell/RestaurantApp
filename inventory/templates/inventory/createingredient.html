@@ -1,6 +1,7 @@
 {% extends 'inventory/base.html' %}
 {% load static %}
 {% block content %} 
+<div class='form'>
 <h3>Add Missing Ingredients To Inventory</h3>
 <ul>
     <h4>If ingredient already listed below, skip this step</h4>
@@ -14,4 +15,5 @@
     <input type='submit' value='Add Ingredient'/>
 </form>
 <a href="{% url 'createrecipe' %}"><button type='button'>Move on to recipe creation</button></a>
+</div>
 {% endblock %}

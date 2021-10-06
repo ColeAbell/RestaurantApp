@@ -1,10 +1,12 @@
 {% extends 'inventory/base.html' %}
 {% load static %}
 {% block content %} 
+<div class='form'>
 <h3>To confirm removal of menu item, click "Delete Entree"</h3>
 <form method='POST'>
     {% csrf_token %} 
     {{form.as_p}}
     <input type='submit' value='Delete Entree'/>
 </form>
+</div>
 {% endblock %} 

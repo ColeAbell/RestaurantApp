@@ -1,14 +1,21 @@
-table, th, td, thead, tbody{
+th, td{
     border: 1px solid blue;
     font-weight: bold;
-    
+    padding: 8px;
+    text-align: left;
+    background-color: lightblue;
 }
+
+tr table td{
+    background-color:lightgoldenrodyellow;
+}
+
 table {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin: 30px 0;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 400px;
+    min-width: 450px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 button {
@@ -16,8 +23,22 @@ button {
 }
 
 h1 {
-    color: lime;
+    color: black;
 }
-h1.title {
-    color: red;
+span {
+    background-color: white;
+}
+
+h1 title {
+    color: black;
+}
+.home {
+    background-image: url("plantstreet.jpg");
+}
+
+.form, .test{
+    background-image: url("texture2.jpg");
+}
+li {
+    font-weight: bold;
 }

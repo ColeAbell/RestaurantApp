@@ -1,11 +1,15 @@
 <!DOCTYPE html>
+{% load static %} 
 {% block head %}
+<link rel='stylesheet' href="{% static 'inventory/home.css' %}"/>
 {% endblock %}
-<body>
+<body class='test'>
+    <div>
     <title>Winter Garden Django Pizza Company</title>
-    <h1>Winter Garden Django Pizza Company</h1>
+    <h1><span>Winter Garden Django Pizza Company</span></h1>
     <a href="{% url 'home' %}"><button type='button'>Home</button></a>
     <a href="{% url 'logout' %}"><button type='button'>Log out</button></a>
+    </div>
     {% block content %}
     {% endblock %}
     

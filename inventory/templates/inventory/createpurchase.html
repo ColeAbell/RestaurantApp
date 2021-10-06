@@ -1,10 +1,12 @@
 {% extends 'inventory/base.html' %}
 {% load static %}
 {% block content %}
+<div class='form'>
 <h3>Log Purchase</h3>
 <form method='POST'>
     {% csrf_token %} 
     {{form.as_p}}
     <input type='submit' value='Submit'/>
 </form>
+</div>
 {% endblock %} 

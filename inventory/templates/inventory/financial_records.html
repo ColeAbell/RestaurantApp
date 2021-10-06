@@ -1,0 +1,28 @@
+{% extends "inventory/base.html" %} 
+{% load static %} 
+{% block head %} 
+<link rel='stylesheet' href="{% static 'inventory/home.css' %}"/>
+{% endblock %} 
+{% block content %} 
+<table>
+<caption><h3>Store Register Records</h3></caption>
+<thead> 
+<tr>
+    <th>Date</th>
+    <th>Closing Drawer Amount</th>
+    <th>Total Spending</th>
+    <th>Total Earnings</th>
+    <th>Total Profit</th>
+</tr> 
+</thead> 
+{% for r in register %} 
+<tr>
+    <td>{{r.date}}</td>
+    <td>{{r.daily_bank|floatformat:2}}</td>
+    <td>{{r.amount_spent|floatformat:2}}</td>
+    <td>{{r.amount_made|floatformat:2}}</td>
+    <td>{{r.profit|floatformat:2}}</td>
+</tr>
+{% endfor %} 
+</table>
+{% endblock %} 
