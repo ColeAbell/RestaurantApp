@@ -1,7 +1,7 @@
 from django.db.models.signals import pre_save, post_save 
 from django.dispatch import receiver 
 from .models import Ingredient, Purchase, MenuItem, RecipeRequirment, Register
-
+# Update register to reflect amount spent on new ingredients 
 @receiver(post_save, sender=Ingredient)
 def purchase_new_ingredient(sender, instance, created, **kwargs):
     if created:
@@ -11,7 +11,7 @@ def purchase_new_ingredient(sender, instance, created, **kwargs):
         n.save()
     else:
         pass 
-
+# Update register to reflect amount spent on ingredients pre-existing in the database 
 @receiver(pre_save, sender=Ingredient)
 def purchase_more_ingredient(sender, instance, **kwards):
     if instance.id is None:
@@ -27,7 +27,7 @@ def purchase_more_ingredient(sender, instance, **kwards):
             n.save()
         else:
             pass
-
+# Update register to reflect entree purchase
 @receiver(post_save, sender=Purchase)
 def sale(sender, instance, created, **kwargs):
     if created:
@@ -37,6 +37,7 @@ def sale(sender, instance, created, **kwargs):
         n.save()
     else:
         pass
+# Automatically purchase sold out ingredients at end of day and reflect it in the closing bank statement 
 @receiver(pre_save, sender=Register)
 def closing_restock(sender, instance, **kwargs):
     if instance.id is None:
@@ -46,6 +47,7 @@ def closing_restock(sender, instance, **kwargs):
                 k.ingredient.save()
     else:
         pass
+# Set register value at start of new day based on previous day's remaining balance
 @receiver(post_save, sender=Register)
 def set_register(sender, instance, created, **kwargs):
     if created:
